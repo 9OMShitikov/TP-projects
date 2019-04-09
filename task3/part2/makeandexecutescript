@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "Cloning project..."
+git clone https://github.com/akhtyamovpavel/PatternsCollection.git
+
+echo "Changing files..."
+rm ./PatternsCollection/Decorator/cpp-source/configs/config.ini.example
+cp ./config.ini ./PatternsCollection/Decorator/cpp-source/configs/config.ini
+
+rm ./PatternsCollection/Decorator/cpp-source/notifiers/EmailNotifier.cpp
+cp ./EmailNotifier.cpp ./PatternsCollection/Decorator/cpp-source/notifiers/EmailNotifier.cpp
+
+echo "Building project..."
+cd PatternsCollection
+cmake .
+make
+
+echo "Executing Decorator..."
+cd ../bin
+./Decorator

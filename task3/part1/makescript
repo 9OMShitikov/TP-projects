@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "Cloning tools..."
+git clone https://github.com/raspberrypi/tools.git
+
+OLD_PATH=$PATH
+PATH=$PATH:$(pwd)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin
+NEW_SYSROOT=$(pwd)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf
+
+echo "Cloning project..."
+git clone https://github.com/akhtyamovpavel/PatternsCollection.git
+
+echo "Building project..."
+cd PatternsCollection
+cmake -DON_PI=ON -DSYSROOT="$NEW_SYSROOT" -DCMAKE_INSTALL_PREFIX=../ProjFiles .
+make install
+
+echo "Archivating project..."
+cd ../
+zip -r PatternsCollection.zip ProjFiles
+rm -r ProjFiles
+
+PATH=$OLD_PATH
